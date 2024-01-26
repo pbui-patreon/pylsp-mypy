@@ -363,6 +363,10 @@ def get_diagnostics(
                 )
                 mypy_api.run_dmypy(["--status-file", dmypy_status_file, "restart"])
 
+        # Use relative path of file
+        filepath_idx = args.index(document.path)
+        args[filepath_idx] = os.path.relpath(document.path)
+
         # run to use existing daemon or restart if required
         args = ["--status-file", dmypy_status_file, "run", "--"] + apply_overrides(args, overrides)
         if shutil.which("dmypy"):
